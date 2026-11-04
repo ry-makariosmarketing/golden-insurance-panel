@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Insurance Panel Replacement</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<style>
+  /* Golden Electrical #golden-svc look: light page with dark ink bands, red/amber accents, Space Mono eyebrows + numbers. Single committed brand look. */
+  :root{
+    color-scheme:light;
+    --ink:#0d0f10;
+    --ink-2:#17191b;
+    --red:#ea0f01;
+    --red-deep:#c00d02;
+    --amber:#f79a26;
+    --sage:#7b9089;
+    --paper:#ffffff;
+    --paper-2:#f4f5f5;
+    --line:#e2e4e4;
+    --text:#0d0f10;
+    --soft:#565c5e;
+    --soft-d:#aeb7b6;
+    --alert:#ea0f01;
+    --radius:14px;
+    --fd:"Outfit","Segoe UI",system-ui,sans-serif;
+    --fb:"Inter","Segoe UI",system-ui,sans-serif;
+    --fm:"Space Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--paper);color:var(--text);font-family:var(--fb);line-height:1.65;font-size:16px}
+  h1,h2,h3{font-family:var(--fd);line-height:1.08;margin:0;font-weight:700;text-wrap:balance;letter-spacing:-.01em}
+  p{margin:0}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin-inline:auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+  .ey{font-family:var(--fm);font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--red);display:inline-block}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--fd);font-weight:700;border-radius:8px;padding:14px 24px;border:0;cursor:pointer;text-decoration:none;font-size:15.5px;line-height:1;letter-spacing:.01em}
+  .btn-red{background:var(--red);color:#fff}
+  .btn-red:hover{background:var(--red-deep)}
+  .btn-dark{background:var(--ink);color:#fff}
+  .btn-outline{background:transparent;border:2px solid currentColor}
+  .btn-lg{padding:17px 30px;font-size:16.5px}
+
+  /* INTERNAL review banner (remove before build) */
+  .review{background:#202326;color:#eef0f1;border-bottom:3px solid var(--amber)}
+  .review .wrap{padding-block:14px}
+  .review .tag{display:inline-block;font:700 11px/1 var(--fm);letter-spacing:1.5px;background:var(--amber);color:#2a1a00;padding:6px 10px;border-radius:5px;margin-right:10px;vertical-align:middle}
+  .review b{color:var(--amber)}
+  .review ul{margin:9px 0 0;padding-left:20px;font-size:13px;color:#c4c9cb}
+  .review li{margin:3px 0}
+  .review .q{color:var(--amber);font-weight:700}
+
+  /* header */
+  header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--ink);color:#fff}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:31;background:var(--ink)}
+  .nav .wrap{display:flex;align-items:center;gap:16px;padding-block:14px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--fd);font-size:21px;font-weight:800;letter-spacing:.3px}
+  .brand .bolt{width:34px;height:34px;border-radius:8px;background:var(--red);display:grid;place-items:center;color:#fff;font-size:18px}
+  .brand small{display:block;font-family:var(--fm);font-size:9px;letter-spacing:2px;color:var(--amber);font-weight:400;margin-top:2px}
+  .nav .right{margin-left:auto;display:flex;align-items:center;gap:16px}
+  .nav .tel{font-family:var(--fd);font-size:20px;font-weight:700;white-space:nowrap;color:#fff;text-decoration:none}
+  .nav .tel small{display:block;font-family:var(--fm);font-size:10px;letter-spacing:1.5px;color:var(--amber);font-weight:400}
+
+  /* hero */
+  .hero{position:relative;background:
+      linear-gradient(90deg,rgba(13,15,16,.95) 0%,rgba(13,15,16,.82) 44%,rgba(13,15,16,.5) 100%),
+      url("panel-test.jpg") right center/cover no-repeat,#0d0f10;
+      color:#fff;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-6%;top:-20%;width:560px;height:560px;border-radius:50%;
+      background:radial-gradient(circle,rgba(247,154,38,.26),transparent 62%);pointer-events:none}
+  .hero .wrap{position:relative;padding-block:30px 58px}
+  .crumb{font-family:var(--fm);font-size:12px;color:var(--soft-d);letter-spacing:1px;padding-top:6px}
+  .crumb span{color:var(--amber)}
+  .kick{display:inline-flex;align-items:center;gap:9px;background:var(--red);color:#fff;font-family:var(--fm);font-weight:700;font-size:12px;letter-spacing:1px;padding:8px 14px;border-radius:999px;text-transform:uppercase;margin-top:22px}
+  .kick .dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+  @media(prefers-reduced-motion:reduce){.kick .dot{animation:none}}
+  .hero h1{font-size:clamp(33px,5.6vw,58px);font-weight:800;margin:20px 0 0;max-width:17ch}
+  .hero h1 .hl{color:var(--amber)}
+  .hero .sub{font-size:clamp(16.5px,2.1vw,20px);color:#d6dadb;max-width:50ch;margin-top:18px}
+  .hero .cta-row{display:flex;flex-wrap:wrap;gap:13px;margin-top:28px}
+  .hero .btn-outline{color:#fff}
+  .trust{display:flex;flex-wrap:wrap;gap:12px 26px;margin-top:30px;padding-top:24px;border-top:1px solid rgba(255,255,255,.14);font-size:13.5px;color:#d6dadb;font-weight:500}
+  .trust span{display:inline-flex;align-items:center;gap:8px}
+  .trust .ck{width:15px;height:15px;color:var(--amber);flex:0 0 auto}
+
+  /* sections */
+  section{padding-block:clamp(44px,6vw,70px)}
+  .alt{background:var(--paper-2);border-block:1px solid var(--line)}
+  h2.big{font-size:clamp(26px,3.8vw,40px);margin:11px 0 0;font-weight:800}
+  .lead{color:var(--soft);max-width:64ch;margin-top:14px;font-size:17px}
+
+  /* trigger cards */
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px;margin-top:30px}
+  .tcard{background:var(--paper);border:1px solid var(--line);border-top:4px solid var(--red);border-radius:var(--radius);padding:24px;box-shadow:0 14px 34px -24px rgba(13,15,16,.4)}
+  .tcard .tic{display:inline-flex;width:46px;height:46px;border-radius:11px;background:rgba(234,15,1,.08);color:var(--red);align-items:center;justify-content:center;margin-bottom:15px}
+  .tcard .tic svg{width:23px;height:23px}
+  .tcard h3{font-size:21px}
+  .tcard p{color:var(--soft);font-size:15px;margin-top:9px}
+
+  /* numbered cards (why flagged) */
+  .ncards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:30px}
+  .ncard{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px;position:relative}
+  .alt .ncard{background:var(--paper)}
+  .ncard .num{font-family:var(--fm);font-size:13px;font-weight:700;color:var(--red);letter-spacing:1px}
+  .ncard h3{font-size:19px;margin:9px 0 8px}
+  .ncard p{color:var(--soft);font-size:14.5px}
+
+  /* confirm chips / placeholder */
+  .confirm{display:inline-block;font:700 10px/1 var(--fm);letter-spacing:.5px;text-transform:uppercase;color:#8a5300;background:#ffeac4;border:1px dashed var(--amber);padding:4px 7px;border-radius:5px;vertical-align:middle}
+  .pbox{border:2px dashed var(--amber);background:rgba(247,154,38,.08);border-radius:var(--radius);padding:24px;margin-top:26px}
+  .pbox .pt{font-family:var(--fd);font-weight:700;font-size:20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+  .chip{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-weight:600;font-size:14px}
+  .chip.todo{border-style:dashed;color:var(--soft)}
+
+  /* deadline */
+  .dl-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:center;margin-top:12px}
+  .window{display:flex;gap:12px;margin-top:24px}
+  .wbox{flex:1;text-align:center;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 10px}
+  .wbox .d{font-family:var(--fd);font-size:42px;font-weight:800;line-height:1}
+  .wbox.mid{border-color:var(--red);box-shadow:0 0 0 2px rgba(234,15,1,.18)}
+  .wbox.mid .d{color:var(--red)}
+  .wbox .l{font-family:var(--fm);font-size:11px;color:var(--soft);margin-top:6px;letter-spacing:.5px;text-transform:uppercase}
+  .ansbox{background:var(--ink);color:#fff;border-radius:var(--radius);padding:26px;border-left:5px solid var(--amber)}
+  .ansbox h3{font-size:21px;margin-bottom:9px}
+  .ansbox p{color:#cfd4d5;font-size:15px}
+
+  /* cost */
+  .cost-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:30px}
+  .cost{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:0 14px 34px -26px rgba(13,15,16,.4)}
+  .cost .fig{font-family:var(--fd);font-size:33px;font-weight:800;line-height:1}
+  .cost .fig .yr{font-size:14px;color:var(--soft);font-weight:600}
+  .cost .cap{color:var(--soft);font-size:14px;margin-top:9px}
+  .cost-wrap{display:grid;grid-template-columns:.85fr 1.15fr;gap:28px;align-items:stretch;margin-top:30px}
+  .cost-wrap .cost-grid{grid-template-columns:1fr;margin-top:16px}
+  /* photos */
+  .shot{margin:36px 0 0}
+  .shot img{width:100%;border-radius:var(--radius);display:block;border:1px solid var(--line)}
+  .shot figcaption{font-family:var(--fm);font-size:11.5px;color:var(--soft);letter-spacing:.5px;margin-top:10px;text-align:center;text-transform:uppercase}
+  .shot.side{margin:0}
+  .shot.side img{height:100%;object-fit:cover;min-height:280px}
+  @media(max-width:760px){.cost-wrap{grid-template-columns:1fr}.shot.side img{min-height:220px}}
+
+  /* dark why band */
+  .dark{background:var(--ink);color:#fff}
+  .dark .ey{color:var(--amber)}
+  .dark h2.big{color:#fff}
+  .dark .lead{color:#cfd4d5}
+  .whyrows{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:30px}
+  .whyrow{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:22px}
+  .whyrow .ic{font-family:var(--fd);font-weight:800;color:var(--amber);font-size:22px}
+  .whyrow h3{font-size:18px;margin:9px 0 7px}
+  .whyrow p{color:#c3cacb;font-size:14.5px}
+
+  /* HOA offer */
+  .offer{background:linear-gradient(120deg,var(--red),var(--red-deep));color:#fff}
+  .offer .wrap{display:grid;grid-template-columns:1.3fr .7fr;gap:30px;align-items:center}
+  .offer .ey{color:#ffd9c7}
+  .offer h2{font-size:clamp(25px,3.8vw,37px);font-weight:800}
+  .offer p{color:#ffe3da;margin-top:12px;font-size:16px;max-width:50ch}
+  .offer .side{background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.25);border-radius:var(--radius);padding:22px}
+  .offer .side ul{margin:0;padding-left:18px}
+  .offer .side li{margin:8px 0;font-weight:600}
+
+  /* process */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:34px}
+  .step{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:26px 22px 22px;position:relative}
+  .alt .step{background:var(--paper)}
+  .step .num{position:absolute;top:-16px;left:22px;width:38px;height:38px;border-radius:9px;background:var(--red);color:#fff;display:grid;place-items:center;font-family:var(--fm);font-weight:700;font-size:15px}
+  .step h3{font-size:18px;margin:8px 0 8px}
+  .step p{color:var(--soft);font-size:14px}
+
+  /* video */
+  .vframe{margin-top:26px;aspect-ratio:16/9;max-width:760px;border:2px dashed var(--line);border-radius:var(--radius);
+      background:repeating-linear-gradient(135deg,var(--paper),var(--paper) 22px,var(--paper-2) 22px,var(--paper-2) 44px);
+      display:grid;place-items:center;text-align:center;color:var(--soft)}
+  .vframe .play{width:70px;height:70px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;margin:0 auto 12px}
+  .vframe .play svg{width:28px;height:28px;margin-left:3px}
+  .pbox .pt-ic{width:23px;height:23px;color:var(--amber);flex:0 0 auto}
+
+  /* area */
+  .area{background:var(--ink);color:#fff;text-align:center}
+  .area .ey{color:var(--amber)}
+  .area h2.big{color:#fff}
+  .area .lead{color:#cfd4d5;margin-inline:auto}
+  .cityline{font-family:var(--fd);font-weight:800;font-size:clamp(20px,3vw,30px);margin-top:26px;letter-spacing:.5px;color:#fff}
+  .cityline b{color:var(--amber)}
+  .zips{font-family:var(--fm);color:var(--soft-d);font-size:13px;margin-top:12px;letter-spacing:1px}
+
+  /* faq */
+  details{background:var(--paper);border:1px solid var(--line);border-radius:12px;margin-top:12px;overflow:hidden}
+  .alt details{background:var(--paper)}
+  summary{cursor:pointer;padding:19px 22px;font-family:var(--fd);font-size:18.5px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--red);font-size:26px;line-height:1;font-weight:400}
+  details[open] summary::after{content:"\2212"}
+  details .a{padding:0 22px 19px;color:var(--soft);font-size:15px}
+
+  /* final cta */
+  .final{background:var(--red);color:#fff;text-align:center}
+  .final h2{font-size:clamp(27px,4.4vw,43px);font-weight:800}
+  .final p{max-width:50ch;margin:14px auto 0;font-size:17px;color:#ffe3da}
+  .final .cta-row{display:flex;flex-wrap:wrap;gap:13px;justify-content:center;margin-top:28px}
+  .final .btn-outline{color:#fff}
+
+  footer{background:var(--ink);color:#9aa2a3;font-size:13px}
+  footer .wrap{padding-block:30px;text-align:center}
+  footer .lic{font-family:var(--fm);color:var(--soft-d);letter-spacing:1px}
+
+  @media(max-width:760px){
+    .dl-grid,.offer .wrap{grid-template-columns:1fr}
+    .nav .tel small{display:none}
+    .nav .tel{font-size:16px}
+  }
+
+  /* ===== WOW: motion + polish ===== */
+  .btn{transition:background .18s ease,transform .18s ease,box-shadow .18s ease;position:relative;overflow:hidden}
+  .btn-red{box-shadow:0 10px 24px -12px rgba(234,15,1,.7)}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-red:hover{box-shadow:0 16px 30px -12px rgba(234,15,1,.85)}
+  .btn-red::after{content:"";position:absolute;top:0;left:-130%;width:60%;height:100%;
+      background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-18deg);transition:left .6s ease;pointer-events:none}
+  .btn-red:hover::after{left:150%}
+
+  .tcard,.cost,.step,.ncard,.whyrow,.chip{transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease,background .22s ease}
+  .tcard:hover,.cost:hover{transform:translateY(-5px);box-shadow:0 26px 50px -28px rgba(13,15,16,.55);border-color:var(--red)}
+  .step:hover{transform:translateY(-5px);box-shadow:0 26px 50px -30px rgba(13,15,16,.5)}
+  .whyrow:hover{transform:translateY(-4px);background:rgba(255,255,255,.08);border-color:rgba(247,154,38,.5)}
+  .chip:hover{transform:translateY(-2px);border-color:var(--red)}
+  details{transition:box-shadow .2s ease,border-color .2s ease}
+  details[open]{border-color:var(--red);box-shadow:0 18px 40px -30px rgba(13,15,16,.5)}
+
+  /* hero as two columns with the live countdown */
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:38px;align-items:center}
+  .hero-aside{display:flex;justify-content:flex-end}
+  .cd-card{width:100%;max-width:350px;background:rgba(13,15,16,.5);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);
+      border:1px solid rgba(255,255,255,.16);border-top:4px solid var(--red);border-radius:16px;padding:22px 22px 20px;
+      box-shadow:0 30px 70px -30px rgba(0,0,0,.85)}
+  .cd-top{font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:1.4px;color:var(--amber);text-transform:uppercase;display:flex;align-items:center;gap:9px}
+  .cd-top .cd-dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:ring 1.8s infinite}
+  @keyframes ring{0%{box-shadow:0 0 0 0 rgba(234,15,1,.55)}70%{box-shadow:0 0 0 12px rgba(234,15,1,0)}100%{box-shadow:0 0 0 0 rgba(234,15,1,0)}}
+  .cd-clock{display:flex;align-items:flex-start;justify-content:space-between;gap:2px;margin-top:17px}
+  .cd-unit{flex:1;text-align:center}
+  .cd-n{font-family:var(--fm);font-weight:700;font-size:34px;line-height:1;color:#fff;font-variant-numeric:tabular-nums;display:block}
+  .cd-l{font-family:var(--fm);font-size:9.5px;letter-spacing:1.1px;text-transform:uppercase;color:var(--soft-d);margin-top:8px;display:block}
+  .cd-sep{font-family:var(--fm);font-weight:700;font-size:26px;color:var(--red);line-height:1.1;padding-top:3px}
+  .cd-foot{margin-top:18px;padding-top:15px;border-top:1px solid rgba(255,255,255,.14);font-size:13px;color:#e4e7e8;font-weight:600;display:flex;align-items:center;gap:10px}
+  .cd-foot .cd-ok{width:22px;height:22px;flex:0 0 auto;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center}
+  .cd-foot .cd-ok svg{width:12px;height:12px}
+  @media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:26px}.hero-aside{justify-content:flex-start}.cd-card{max-width:420px}}
+
+  .wbox.mid{animation:midpulse 2.6s ease-in-out infinite}
+  @keyframes midpulse{0%,100%{box-shadow:0 0 0 2px rgba(234,15,1,.18)}50%{box-shadow:0 0 0 6px rgba(234,15,1,.09)}}
+
+  @media(prefers-reduced-motion:reduce){
+    .btn:hover,.tcard:hover,.cost:hover,.step:hover,.whyrow:hover,.chip:hover{transform:none}
+    .cd-top .cd-dot,.wbox.mid{animation:none}
+  }
+
+  /* neutral photo placeholders */
+  .ph{position:relative;width:100%;border-radius:var(--radius);border:1px solid var(--line);background:linear-gradient(135deg,#1b1e20,#0d0f10);display:grid;place-items:center;color:#6b7375;min-height:300px;overflow:hidden}
+  .ph::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 72% 28%,rgba(247,154,38,.14),transparent 60%);pointer-events:none}
+  .ph svg{width:46px;height:46px;opacity:.55;position:relative}
+  .ph .phl{position:absolute;bottom:16px;left:12px;right:12px;text-align:center;font-family:var(--fm);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:#828a8c}
+  .shot.side .ph{height:100%}
+
+  /* mobile header: wrap brand onto its own row so nothing clips at phone width */
+  body{overflow-x:hidden}
+  @media(max-width:520px){
+    .nav .wrap{flex-wrap:wrap;row-gap:11px;padding-inline:max(14px,env(safe-area-inset-left,0px)) max(14px,env(safe-area-inset-right,0px))}
+    .nav .right{width:100%;margin-left:0;justify-content:space-between;gap:12px}
+    .nav .tel{font-size:17px}
+    .nav .btn{padding:12px 16px;font-size:14.5px}
+  }
+</style>
+
+<!-- ===================== HEADER ===================== -->
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <div class="brand"><span class="bolt">⚡</span><span>Golden Electrical<small>CA LIC #1097977</small></span></div>
+  <div class="right">
+    <a class="tel" href="#"><small>CALL 24/7</small>(855) 530-0002</a>
+    <a class="btn btn-red" href="#quote">Request a Quote</a>
+  </div>
+</div></header>
+
+<!-- ===================== HERO ===================== -->
+<div class="hero"><div class="wrap">
+  <div class="hero-grid">
+   <div class="hero-main">
+  <div class="crumb">Home <span>/</span> Services <span>/</span> Insurance Panel Replacement</div>
+  <span class="kick"><span class="dot"></span> Insurance deadline? We move fast</span>
+  <h1>Your insurer flagged your <span class="hl">electrical panel.</span> We replace it before your deadline.</h1>
+  <p class="sub">Got a non-renewal letter or an inspection notice about your panel? Golden Electrical replaces insurance-flagged panels across the Tri-Valley, documents the work for your carrier, and keeps your coverage in place.</p>
+  <div class="cta-row">
+    <a class="btn btn-red btn-lg" href="#quote">Get My Free Panel Inspection</a>
+    <a class="btn btn-outline btn-lg" href="#brands">See which panels get flagged</a>
+  </div>
+  <div class="trust">
+    <span><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg> CA Licensed #1097977</span>
+    <span><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg> Family-Owned</span>
+    <span><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg> Insurer-Ready Paperwork</span>
+    <span><svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg> Fast Scheduling</span>
+  </div>
+   </div>
+   <aside class="hero-aside">
+     <div class="cd-card">
+       <div class="cd-top"><span class="cd-dot"></span> Example 60-day deadline</div>
+       <div class="cd-clock">
+         <div class="cd-unit"><span class="cd-n" id="cd-d">59</span><span class="cd-l">Days</span></div>
+         <span class="cd-sep">:</span>
+         <div class="cd-unit"><span class="cd-n" id="cd-h">00</span><span class="cd-l">Hrs</span></div>
+         <span class="cd-sep">:</span>
+         <div class="cd-unit"><span class="cd-n" id="cd-m">00</span><span class="cd-l">Min</span></div>
+         <span class="cd-sep">:</span>
+         <div class="cd-unit"><span class="cd-n" id="cd-s">00</span><span class="cd-l">Sec</span></div>
+       </div>
+       <div class="cd-foot"><span class="cd-ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg></span> Book this week and Golden still beats it.</div>
+     </div>
+   </aside>
+  </div>
+</div></div>
+
+<!-- ===================== TRIGGERS ===================== -->
+<section><div class="wrap">
+  <span class="ey">Did one of these arrive?</span>
+  <h2 class="big">Two notices that mean your panel is the problem</h2>
+  <p class="lead">California carriers have ramped this up sharply in the last few months. If you got either of these, the clock is already running.</p>
+  <div class="grid2">
+    <div class="tcard">
+      <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7.5l9 6 9-6"/></svg></span>
+      <h3>A non-renewal letter</h3>
+      <p>Your carrier says they will not renew your homeowners policy unless the panel is replaced, usually with a hard deadline attached.</p>
+    </div>
+    <div class="tcard">
+      <span class="tic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L18 8h2a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.4"/></svg></span>
+      <h3>An inspection photo request</h3>
+      <p>At renewal the insurer asks you to photograph your panel inside and out. Those photos decide whether you stay covered, get surcharged, or get dropped.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ===================== WHY (dark band) ===================== -->
+<div class="dark"><section><div class="wrap">
+  <span class="ey">Why is this suddenly happening?</span>
+  <h2 class="big">Most homeowners have no idea why they got the letter</h2>
+  <p class="lead">You did nothing wrong. California insurers have changed what they will cover, and older panels are at the top of the list.</p>
+  <div class="whyrows">
+    <div class="whyrow"><div class="ic">01</div><h3>Some panels are now "uninsurable"</h3><p>Carriers have decided specific panel brands and older wiring are fire hazards they will no longer take on.</p></div>
+    <div class="whyrow"><div class="ic">02</div><h3>Age is a trigger</h3><p>Per insurance brokers, anything roughly 25 years or older is being called out for replacement.</p></div>
+    <div class="whyrow"><div class="ic">03</div><h3>Old wiring counts too</h3><p>Knob-and-tube and other dated wiring draws the same flag as the panel itself.</p></div>
+    <div class="whyrow"><div class="ic">04</div><h3>It is accelerating</h3><p>This has built for about two years and spiked in the last few months. Golden fields these calls daily.</p></div>
+  </div>
+</div></section></div>
+
+<!-- ===================== BRANDS (placeholder) ===================== -->
+<section id="brands" class="alt"><div class="wrap">
+  <span class="ey">The list carriers are sending</span>
+  <h2 class="big">Which panel brands are getting flagged?</h2>
+  <p class="lead">Insurers tell homeowners exactly which panels have to go. These are the brands most commonly flagged. Share your letter and we confirm your carrier-specific list right away.</p>
+  <div class="chips" style="margin-top:28px">
+    <span class="chip">Federal Pacific (FPE)</span>
+    <span class="chip">Zinsco</span>
+    <span class="chip">Challenger</span>
+    <span class="chip">Pushmatic</span>
+  </div>
+  <p class="lead" style="margin-top:24px">Not sure what you have? Send a photo of your panel label, or book a free inspection and we will identify it for you.</p>
+  <a class="btn btn-dark btn-lg" href="#quote" style="margin-top:10px">Identify My Panel Free</a>
+</div></section>
+
+<!-- ===================== DEADLINE ===================== -->
+<section><div class="wrap">
+  <span class="ey">How long do you really have?</span>
+  <h2 class="big">Most deadlines land around 60 days</h2>
+  <div class="dl-grid">
+    <div>
+      <p class="lead">Carriers typically give a 60-day window, though we have seen notices as short as 30 days and as long as 90. One Tri-Valley homeowner who had just bought their home was given only 30 days to replace at a cost of $10,000 to $15,000.</p>
+      <div class="window">
+        <div class="wbox"><div class="d" data-count="30">30</div><div class="l">shortest seen</div></div>
+        <div class="wbox mid"><div class="d" data-count="60">60</div><div class="l">most common</div></div>
+        <div class="wbox"><div class="d" data-count="90">90</div><div class="l">longest seen</div></div>
+      </div>
+    </div>
+    <div class="ansbox">
+      <h3>Will Golden make the deadline?</h3>
+      <p>Yes. We prioritize insurance-deadline jobs, pull the permit, replace the panel, and hand you the documentation your carrier needs, all inside your window. Book the inspection as soon as your letter arrives so we can lock in your date.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ===================== COST ===================== -->
+<section class="alt"><div class="wrap">
+  <span class="ey">What does it cost?</span>
+  <h2 class="big">Panel replacement cost, in plain numbers</h2>
+  <div class="cost-wrap">
+    <figure class="shot side"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.3"/><path d="M8 5l1.5-2h5L16 5"/></svg><span class="phl">Panel replacement photo</span></div></figure>
+    <div>
+      <p class="lead" style="margin-top:0">A full replacement in our area commonly runs in the five-figure range depending on the home, the panel size, and the wiring behind it. You get a firm quote after the inspection, with financing so a deadline does not force a rushed decision.</p>
+      <div class="cost-grid">
+        <div class="cost"><div class="fig">$10K&ndash;$15K</div><div class="cap">Typical full replacement range for a flagged panel in the Tri-Valley.</div></div>
+        <div class="cost"><div class="fig">Financing</div><div class="cap">Flexible payment options, so a 30 to 60 day deadline does not mean paying all at once.</div></div>
+        <div class="cost"><div class="fig">~$1K&#8594;$2K<span class="yr"> / yr</span></div><div class="cap">What some keep-but-surcharge policies jump to if you do nothing.</div></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ===================== HOA OFFER ===================== -->
+<div class="offer"><section><div class="wrap">
+  <div>
+    <span class="ey">Neighbors in the same spot?</span>
+    <h2>Bundle your whole HOA and everyone saves</h2>
+    <p>If these letters are hitting your street, you are not alone. Golden offers HOA and neighborhood bundling: group several panel replacements together for priority scheduling and better per-home pricing.</p>
+    <a class="btn btn-dark btn-lg" href="#quote" style="margin-top:18px">Ask About HOA Bundling</a>
+  </div>
+  <div class="side"><ul>
+    <li>One coordinated schedule</li>
+    <li>Group pricing per home</li>
+    <li>Priority on tight deadlines</li>
+    <li>One contact for the board</li>
+  </ul></div>
+</div></section></div>
+
+<!-- ===================== PROCESS ===================== -->
+<section><div class="wrap">
+  <span class="ey">How it works</span>
+  <h2 class="big">From letter to covered, in four steps</h2>
+  <div class="steps">
+    <div class="step"><div class="num">01</div><h3>Free inspection</h3><p>We identify your panel and wiring, confirm what your carrier flagged, and tell you exactly what is needed.</p></div>
+    <div class="step"><div class="num">02</div><h3>Firm quote &amp; permit</h3><p>You get a clear price and financing options. We pull the permit and schedule inside your deadline.</p></div>
+    <div class="step"><div class="num">03</div><h3>Panel replacement</h3><p>Licensed electricians swap the panel, and flagged wiring if needed, to current insurable standard.</p></div>
+    <div class="step"><div class="num">04</div><h3>Insurer paperwork</h3><p>You get the documentation and photos your carrier wants, so your coverage stays in place.</p></div>
+  </div>
+  <figure class="shot"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.3"/><path d="M8 5l1.5-2h5L16 5"/></svg><span class="phl">Golden Electrical crew · Tri-Valley</span></div><figcaption>Licensed, family-owned, local to the Tri-Valley</figcaption></figure>
+</div></section>
+
+<!-- ===================== AREA ===================== -->
+<div class="area"><section><div class="wrap">
+  <span class="ey">Service area</span>
+  <h2 class="big">Fast panel replacement across the Tri-Valley</h2>
+  <p class="lead">Golden Electrical covers Livermore and the surrounding Tri-Valley. If your carrier gave you a deadline, we can get to you.</p>
+  <div class="cityline">LIVERMORE <b>&middot;</b> PLEASANTON <b>&middot;</b> DUBLIN <b>&middot;</b> SAN RAMON</div>
+  <div class="zips">94550 &middot; 94551 &middot; 94566 &middot; 94568 &middot; 94582</div>
+</div></section></div>
+
+<!-- ===================== FAQ ===================== -->
+<section><div class="wrap">
+  <span class="ey">Questions</span>
+  <h2 class="big">Insurance panel replacement FAQ</h2>
+
+  <details open><summary>How do I know if my panel is one of the flagged ones?</summary>
+    <div class="a">Check the brand name on the panel label, or send us a photo. Brands like Federal Pacific, Zinsco, Challenger, and Pushmatic are commonly flagged, but your carrier's letter lists the exact ones. We confirm it free during the inspection.</div></details>
+
+  <details><summary>What happens if I miss my insurer's deadline?</summary>
+    <div class="a">You risk non-renewal, meaning your policy is dropped, or a much higher premium to stay covered. Replacing the panel on time is almost always cheaper than losing coverage or paying the surcharge year after year.</div></details>
+
+  <details><summary>Does replacing the panel actually keep my coverage?</summary>
+    <div class="a">In the cases we see, yes. Once the flagged panel is replaced to current standard and documented, carriers restore or continue coverage. We give you the paperwork and photos your insurer asks for.</div></details>
+
+  <details><summary>Can you really do it within 30 to 60 days?</summary>
+    <div class="a">Yes. We prioritize insurance-deadline jobs. Book the inspection as soon as your letter arrives and we will schedule the replacement inside your window.</div></details>
+
+  <details><summary>My whole neighborhood got letters. Can you help all of us?</summary>
+    <div class="a">That is exactly what our HOA and neighborhood bundling is for. Group the replacements for priority scheduling and better per-home pricing, with one point of contact for the board.</div></details>
+</div></section>
+
+<!-- ===================== FINAL CTA ===================== -->
+<div class="final" id="quote"><section><div class="wrap">
+  <h2>Beat your insurance deadline. Start with a free inspection.</h2>
+  <p>Send us your letter or book an inspection today. We will identify your panel, give you a firm quote, and get it replaced before your window closes.</p>
+  <div class="cta-row">
+    <a class="btn btn-dark btn-lg" href="#">Call (855) 530-0002</a>
+    <a class="btn btn-outline btn-lg" href="#">Request My Quote</a>
+  </div>
+</div></section></div>
+
+<footer><div class="wrap">
+  <strong style="font-family:var(--fd);color:#fff;font-size:17px">Golden Electrical</strong><br>
+  2150 Portola Ave D146, Livermore, CA 94551 &middot; (855) 530-0002<br>
+  <span class="lic">CA LICENSE #1097977 &middot; FAMILY-OWNED</span>
+</div></footer>
+
+<script>
+(function(){
+  var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* live example 60-day deadline countdown */
+  var d=document.getElementById('cd-d'),h=document.getElementById('cd-h'),
+      m=document.getElementById('cd-m'),s=document.getElementById('cd-s');
+  if(d&&h&&m&&s){
+    var target=Date.now()+60*24*3600*1000;
+    function p(n){return n<10?'0'+n:''+n;}
+    function tick(){
+      var left=Math.max(0,target-Date.now()),sec=Math.floor(left/1000);
+      var dd=Math.floor(sec/86400); sec-=dd*86400;
+      var hh=Math.floor(sec/3600); sec-=hh*3600;
+      var mm=Math.floor(sec/60), ss=sec-mm*60;
+      d.textContent=dd; h.textContent=p(hh); m.textContent=p(mm); s.textContent=p(ss);
+    }
+    tick(); setInterval(tick,1000);
+  }
+
+  /* count-up the deadline-window numbers when scrolled into view */
+  var nums=[].slice.call(document.querySelectorAll('[data-count]'));
+  if(rm||!('IntersectionObserver' in window)||!nums.length) return;
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var el=e.target,end=parseInt(el.getAttribute('data-count'),10),t0=null,dur=900;
+      function step(ts){
+        if(!t0)t0=ts;
+        var k=Math.min(1,(ts-t0)/dur),ease=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+        el.textContent=Math.round(end*ease);
+        if(k<1) requestAnimationFrame(step); else el.textContent=end;
+      }
+      requestAnimationFrame(step);
+      io.unobserve(el);
+    });
+  },{threshold:.6});
+  nums.forEach(function(n){io.observe(n);});
+})();
+</script>
+</body>
+</html>
