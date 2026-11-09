@@ -278,10 +278,29 @@
   .lead-card .lc-note{font-size:12px;color:var(--soft);text-align:center;margin-top:10px}
   .lead-card .lc-note a{color:var(--red);font-weight:700;text-decoration:none}
   .lead-card .lc-done{display:none;text-align:center;padding:26px 6px}
-  .lead-card.sent form,.lead-card.sent .lc-note{display:none}
+  .lead-card.sent form,.lead-card.sent .lc-note,.lead-card.sent .lc-next,.lead-card.sent .lc-urg{display:none}
   .lead-card.sent .lc-done{display:block}
   @media(max-width:860px){.lead-card{max-width:none}.hero .cta-row .btn-outline{display:none}.hero .cta-row{margin-top:22px}.trust{margin-top:22px;padding-top:18px}}
   @media(max-width:400px){.lead-card .row2{grid-template-columns:1fr}}
+  .lead-card .lc-urg{display:flex;gap:9px;align-items:flex-start;background:#fff4e3;border:1px solid #ffd9a0;border-radius:8px;padding:10px 12px;margin-top:14px;font-size:13px;font-weight:600;color:#6b3f00;line-height:1.4}
+  .lead-card .lc-urg svg{width:17px;height:17px;flex:0 0 auto;color:var(--amber);margin-top:1px}
+  .lead-card label.upl{position:relative;width:auto;height:auto;overflow:hidden;clip:auto;display:flex;align-items:center;gap:10px;border:1px dashed #c9cdce;border-radius:8px;padding:11px 14px;cursor:pointer;font-size:14px;color:var(--soft);background:var(--paper)}
+  .lead-card .upl:hover{border-color:var(--red);color:var(--text)}
+  .lead-card .upl svg{width:19px;height:19px;flex:0 0 auto;color:var(--red)}
+  .lead-card .upl b{color:var(--text);font-weight:600}
+  .lead-card .upl input{position:absolute;width:1px;height:1px;opacity:0}
+  .lead-card .lc-next{font-size:12.5px;color:var(--soft);margin-top:12px;padding-top:12px;border-top:1px solid var(--line);line-height:1.5}
+  .lead-card .lc-next b{color:var(--text)}
+
+  /* sticky mobile action bar */
+  .mbar{display:none}
+  @media(max-width:760px){
+    .mbar{display:grid;grid-template-columns:1fr 1.25fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--ink);padding:10px max(12px,env(safe-area-inset-left,0px)) calc(10px + env(safe-area-inset-bottom,0px));box-shadow:0 -10px 30px -12px rgba(0,0,0,.6);transform:translateY(110%);transition:transform .25s ease}
+    .mbar.show{transform:none}
+    .mbar .btn{justify-content:center;padding:14px 10px;font-size:15px}
+    .mbar .btn-call{background:#fff;color:var(--ink)}
+    body{padding-bottom:76px}
+  }
 
   /* per-section CTA row */
   .sec-cta{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:30px}
@@ -346,6 +365,7 @@
      <div class="lead-card" id="quote">
        <h2>Get your free panel inspection</h2>
        <p class="lc-sub">Tell us about your notice. We'll call you back to book a time before your deadline.</p>
+       <div class="lc-urg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg><span>Most insurers give 30 to 90 days. Book this week to lock in your date.</span></div>
        <form id="lead-form">
          <label for="lf-name">Full name</label><input id="lf-name" name="name" placeholder="Full name" autocomplete="name" required>
          <div class="row2">
@@ -362,9 +382,11 @@
            <option>My whole HOA got letters</option>
            <option>Not sure yet</option>
          </select>
+         <label class="upl" for="lf-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.3"/></svg><span id="lf-photo-txt"><b>Add a photo</b> of your letter or panel (optional)</span><input id="lf-photo" name="photo" type="file" accept="image/*,.pdf" multiple></label>
          <button class="btn btn-red btn-lg" type="submit">Book My Free Inspection</button>
        </form>
        <p class="lc-note">Prefer to talk? <a href="tel:+18555300002">Call (855) 530-0002</a></p>
+       <p class="lc-next"><b>What happens next:</b> we call you back, confirm your panel and what your carrier flagged, and book your free inspection inside your deadline.</p>
        <div class="lc-done"><h2>Thanks, we got it.</h2><p class="lc-sub">A Golden Electrical team member will call you shortly to book your inspection.</p></div>
      </div>
    </aside>
@@ -539,13 +561,23 @@
   </div>
 </div></section></div>
 
+<div class="mbar" id="mbar"><a class="btn btn-call" href="tel:+18555300002">Call Now</a><a class="btn btn-red" href="#quote">Book Free Inspection</a></div>
 <script>
 (function(){
   var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* lead form: preview only, swap for Golden's real form/CRM endpoint before ads go live */
   var lf=document.getElementById('lead-form');
-  if(lf){lf.addEventListener('submit',function(e){e.preventDefault();lf.closest('.lead-card').classList.add('sent');});}
+  if(lf){lf.addEventListener('submit',function(e){e.preventDefault();window.location.href='thank-you.html';});}
+  var up=document.getElementById('lf-photo'),upt=document.getElementById('lf-photo-txt');
+  if(up&&upt){up.addEventListener('change',function(){var n=up.files.length;if(n)upt.innerHTML='<b>'+n+' file'+(n>1?'s':'')+' added</b>, thanks!';});}
+
+  /* sticky mobile bar: show once the hero form is scrolled past */
+  var mb=document.getElementById('mbar'),card=document.getElementById('quote');
+  if(mb&&card){
+    var upd=function(){mb.classList.toggle('show',card.getBoundingClientRect().bottom<0);};
+    window.addEventListener('scroll',upd,{passive:true}); upd();
+  }
 
   /* live example 60-day deadline countdown */
   var d=document.getElementById('cd-d'),h=document.getElementById('cd-h'),
