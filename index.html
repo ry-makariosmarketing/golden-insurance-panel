@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>html,body{margin:0;padding:0}img{max-width:100%;display:block}</style>
 <title>Insurance Panel Replacement</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
@@ -65,11 +66,10 @@
   /* hero */
   .hero{position:relative;background:
       linear-gradient(90deg,rgba(13,15,16,.95) 0%,rgba(13,15,16,.82) 44%,rgba(13,15,16,.5) 100%),
-      url("panel-test.jpg") right center/cover no-repeat,#0d0f10;
+      url("panel.jpg") right center/cover no-repeat,#0d0f10;
       color:#fff;overflow:hidden}
-  .hero::after{content:"";position:absolute;right:-6%;top:-20%;width:560px;height:560px;border-radius:50%;
-      background:radial-gradient(circle,rgba(247,154,38,.26),transparent 62%);pointer-events:none}
-  .hero .wrap{position:relative;padding-block:30px 58px}
+  
+  .hero .wrap{position:relative;padding-block:46px 58px}
   .crumb{font-family:var(--fm);font-size:12px;color:var(--soft-d);letter-spacing:1px;padding-top:6px}
   .crumb span{color:var(--amber)}
   .kick{display:inline-flex;align-items:center;gap:9px;background:var(--red);color:#fff;font-family:var(--fm);font-weight:700;font-size:12px;letter-spacing:1px;padding:8px 14px;border-radius:999px;text-transform:uppercase;margin-top:22px}
@@ -149,7 +149,7 @@
   .dark h2.big{color:#fff}
   .dark .lead{color:#cfd4d5}
   .whyrows{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:30px}
-  .whyrow{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:22px}
+  .whyrow{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);border-left:3px solid var(--amber);border-radius:10px;padding:20px 22px}
   .whyrow .ic{font-family:var(--fd);font-weight:800;color:var(--amber);font-size:22px}
   .whyrow h3{font-size:18px;margin:9px 0 7px}
   .whyrow p{color:#c3cacb;font-size:14.5px}
@@ -220,9 +220,8 @@
   .btn-red{box-shadow:0 10px 24px -12px rgba(234,15,1,.7)}
   .btn:hover{transform:translateY(-2px)}
   .btn-red:hover{box-shadow:0 16px 30px -12px rgba(234,15,1,.85)}
-  .btn-red::after{content:"";position:absolute;top:0;left:-130%;width:60%;height:100%;
-      background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-18deg);transition:left .6s ease;pointer-events:none}
-  .btn-red:hover::after{left:150%}
+  
+  
 
   .tcard,.cost,.step,.ncard,.whyrow,.chip{transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease,background .22s ease}
   .tcard:hover,.cost:hover{transform:translateY(-5px);box-shadow:0 26px 50px -28px rgba(13,15,16,.55);border-color:var(--red)}
@@ -266,6 +265,53 @@
   .ph .phl{position:absolute;bottom:16px;left:12px;right:12px;text-align:center;font-family:var(--fm);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:#828a8c}
   .shot.side .ph{height:100%}
 
+  /* hero lead form */
+  .lead-card{width:100%;max-width:400px;background:var(--paper);color:var(--text);border-top:5px solid var(--red);border-radius:16px;padding:24px 22px 20px;box-shadow:0 30px 70px -30px rgba(0,0,0,.85);scroll-margin-top:20px}
+  .lead-card h2{font-size:23px;font-weight:800}
+  .lead-card .lc-sub{color:var(--soft);font-size:14px;margin-top:6px}
+  .lead-card form{display:grid;gap:10px;margin-top:16px}
+  .lead-card label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .lead-card input,.lead-card select{width:100%;font:500 15px/1.2 var(--fb);color:var(--text);background:var(--paper-2);border:1px solid var(--line);border-radius:8px;padding:13px 14px}
+  .lead-card input:focus,.lead-card select:focus{outline:2px solid var(--red);outline-offset:1px;background:var(--paper)}
+  .lead-card .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .lead-card .btn{width:100%;justify-content:center;margin-top:4px}
+  .lead-card .lc-note{font-size:12px;color:var(--soft);text-align:center;margin-top:10px}
+  .lead-card .lc-note a{color:var(--red);font-weight:700;text-decoration:none}
+  .lead-card .lc-done{display:none;text-align:center;padding:26px 6px}
+  .lead-card.sent form,.lead-card.sent .lc-note{display:none}
+  .lead-card.sent .lc-done{display:block}
+  @media(max-width:860px){.lead-card{max-width:none}.hero .cta-row .btn-outline{display:none}.hero .cta-row{margin-top:22px}.trust{margin-top:22px;padding-top:18px}}
+  @media(max-width:400px){.lead-card .row2{grid-template-columns:1fr}}
+
+  /* per-section CTA row */
+  .sec-cta{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:30px}
+  .sec-cta .tlink{font-family:var(--fd);font-weight:700;font-size:16px;text-decoration:none;color:var(--text)}
+  .sec-cta .tlink span{color:var(--red)}
+  .dark .sec-cta .tlink,.area .sec-cta .tlink{color:#fff}
+  .dark .sec-cta .tlink span,.area .sec-cta .tlink span{color:var(--amber)}
+  .area .sec-cta,.center-cta{justify-content:center}
+
+  /* photo with text + CTA overlay */
+  .shot.cta-shot{position:relative}
+  .shot.cta-shot img{min-height:340px;object-fit:cover}
+  .shot.cta-shot .ov{position:absolute;inset:0;border-radius:var(--radius);background:linear-gradient(270deg,rgba(13,15,16,.94) 0%,rgba(13,15,16,.8) 42%,rgba(13,15,16,0) 72%);color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:clamp(22px,4vw,48px) clamp(22px,4vw,48px) clamp(22px,4vw,48px) 54%;gap:12px}
+  .shot.cta-shot .ov .ey{color:var(--amber)}
+  .shot.cta-shot .ov h3{font-size:clamp(23px,3.2vw,34px);font-weight:800;max-width:17ch}
+  .shot.cta-shot .ov p{color:#d6dadb;max-width:40ch;font-size:15.5px}
+  .shot.cta-shot .ov .sec-cta{margin-top:8px}
+  .shot.cta-shot .ov .tlink{color:#fff}
+  .shot.cta-shot .ov .tlink span{color:var(--amber)}
+  @media(max-width:600px){.shot.cta-shot img{min-height:440px}.shot.cta-shot .ov{background:linear-gradient(0deg,rgba(13,15,16,.95) 0%,rgba(13,15,16,.8) 62%,rgba(13,15,16,.25) 100%);justify-content:flex-end;padding:22px}}
+  @media(min-width:601px) and (max-width:900px){.shot.cta-shot .ov{padding-left:44%}}
+
+  /* flagged panel-brand warning cards */
+  .bgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:16px;margin-top:30px}
+  .bcard{background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--red);border-radius:12px;padding:20px 22px;display:flex;gap:14px;align-items:flex-start;box-shadow:0 14px 34px -28px rgba(13,15,16,.4)}
+  .bcard .wic{flex:0 0 auto;width:38px;height:38px;border-radius:9px;background:rgba(234,15,1,.08);color:var(--red);display:grid;place-items:center}
+  .bcard .wic svg{width:20px;height:20px}
+  .bcard h3{font-size:17.5px;margin:1px 0 5px;line-height:1.15}
+  .bcard p{color:var(--soft);font-size:14px;margin:0}
+
   /* mobile header: wrap brand onto its own row so nothing clips at phone width */
   body{overflow-x:hidden}
   @media(max-width:520px){
@@ -276,27 +322,17 @@
   }
 </style>
 
-<!-- ===================== HEADER ===================== -->
+<!-- ===================== HERO ===================== -->
 </head>
 <body>
-<header class="nav"><div class="wrap">
-  <div class="brand"><span class="bolt">⚡</span><span>Golden Electrical<small>CA LIC #1097977</small></span></div>
-  <div class="right">
-    <a class="tel" href="#"><small>CALL 24/7</small>(855) 530-0002</a>
-    <a class="btn btn-red" href="#quote">Request a Quote</a>
-  </div>
-</div></header>
-
-<!-- ===================== HERO ===================== -->
 <div class="hero"><div class="wrap">
   <div class="hero-grid">
    <div class="hero-main">
-  <div class="crumb">Home <span>/</span> Services <span>/</span> Insurance Panel Replacement</div>
   <span class="kick"><span class="dot"></span> Insurance deadline? We move fast</span>
   <h1>Your insurer flagged your <span class="hl">electrical panel.</span> We replace it before your deadline.</h1>
   <p class="sub">Got a non-renewal letter or an inspection notice about your panel? Golden Electrical replaces insurance-flagged panels across the Tri-Valley, documents the work for your carrier, and keeps your coverage in place.</p>
   <div class="cta-row">
-    <a class="btn btn-red btn-lg" href="#quote">Get My Free Panel Inspection</a>
+    <a class="btn btn-red btn-lg" href="tel:+18555300002">Call (855) 530-0002</a>
     <a class="btn btn-outline btn-lg" href="#brands">See which panels get flagged</a>
   </div>
   <div class="trust">
@@ -307,18 +343,29 @@
   </div>
    </div>
    <aside class="hero-aside">
-     <div class="cd-card">
-       <div class="cd-top"><span class="cd-dot"></span> Example 60-day deadline</div>
-       <div class="cd-clock">
-         <div class="cd-unit"><span class="cd-n" id="cd-d">59</span><span class="cd-l">Days</span></div>
-         <span class="cd-sep">:</span>
-         <div class="cd-unit"><span class="cd-n" id="cd-h">00</span><span class="cd-l">Hrs</span></div>
-         <span class="cd-sep">:</span>
-         <div class="cd-unit"><span class="cd-n" id="cd-m">00</span><span class="cd-l">Min</span></div>
-         <span class="cd-sep">:</span>
-         <div class="cd-unit"><span class="cd-n" id="cd-s">00</span><span class="cd-l">Sec</span></div>
-       </div>
-       <div class="cd-foot"><span class="cd-ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6"/></svg></span> Book this week and Golden still beats it.</div>
+     <div class="lead-card" id="quote">
+       <h2>Get your free panel inspection</h2>
+       <p class="lc-sub">Tell us about your notice. We'll call you back to book a time before your deadline.</p>
+       <form id="lead-form">
+         <label for="lf-name">Full name</label><input id="lf-name" name="name" placeholder="Full name" autocomplete="name" required>
+         <div class="row2">
+           <label for="lf-phone">Phone</label><input id="lf-phone" name="phone" type="tel" placeholder="Phone" autocomplete="tel" required>
+           <label for="lf-zip">ZIP code</label><input id="lf-zip" name="zip" inputmode="numeric" placeholder="ZIP code" autocomplete="postal-code" required>
+         </div>
+         <label for="lf-email">Email</label><input id="lf-email" name="email" type="email" placeholder="Email" autocomplete="email">
+         <label for="lf-notice">What did you get?</label>
+         <select id="lf-notice" name="notice" required>
+           <option value="" disabled selected>What did you get from your insurer?</option>
+           <option>A non-renewal letter</option>
+           <option>An inspection photo request</option>
+           <option>A higher premium / surcharge</option>
+           <option>My whole HOA got letters</option>
+           <option>Not sure yet</option>
+         </select>
+         <button class="btn btn-red btn-lg" type="submit">Book My Free Inspection</button>
+       </form>
+       <p class="lc-note">Prefer to talk? <a href="tel:+18555300002">Call (855) 530-0002</a></p>
+       <div class="lc-done"><h2>Thanks, we got it.</h2><p class="lc-sub">A Golden Electrical team member will call you shortly to book your inspection.</p></div>
      </div>
    </aside>
   </div>
@@ -341,6 +388,7 @@
       <p>At renewal the insurer asks you to photograph your panel inside and out. Those photos decide whether you stay covered, get surcharged, or get dropped.</p>
     </div>
   </div>
+  <div class="sec-cta"><a class="btn btn-red btn-lg" href="#quote">I Got One of These. Book My Inspection</a><a class="tlink" href="tel:+18555300002">or call <span>(855) 530-0002</span></a></div>
 </div></section>
 
 <!-- ===================== WHY (dark band) ===================== -->
@@ -349,11 +397,12 @@
   <h2 class="big">Most homeowners have no idea why they got the letter</h2>
   <p class="lead">You did nothing wrong. California insurers have changed what they will cover, and older panels are at the top of the list.</p>
   <div class="whyrows">
-    <div class="whyrow"><div class="ic">01</div><h3>Some panels are now "uninsurable"</h3><p>Carriers have decided specific panel brands and older wiring are fire hazards they will no longer take on.</p></div>
-    <div class="whyrow"><div class="ic">02</div><h3>Age is a trigger</h3><p>Per insurance brokers, anything roughly 25 years or older is being called out for replacement.</p></div>
-    <div class="whyrow"><div class="ic">03</div><h3>Old wiring counts too</h3><p>Knob-and-tube and other dated wiring draws the same flag as the panel itself.</p></div>
-    <div class="whyrow"><div class="ic">04</div><h3>It is accelerating</h3><p>This has built for about two years and spiked in the last few months. Golden fields these calls daily.</p></div>
+    <div class="whyrow"><h3>Some panels are now "uninsurable"</h3><p>Carriers have decided specific panel brands and older wiring are fire hazards they will no longer take on.</p></div>
+    <div class="whyrow"><h3>Age is a trigger</h3><p>Per insurance brokers, anything roughly 25 years or older is being called out for replacement.</p></div>
+    <div class="whyrow"><h3>Old wiring counts too</h3><p>Knob-and-tube and other dated wiring draws the same flag as the panel itself.</p></div>
+    <div class="whyrow"><h3>It is accelerating</h3><p>This has built for about two years and spiked in the last few months. Golden fields these calls daily.</p></div>
   </div>
+  <div class="sec-cta"><a class="btn btn-red btn-lg" href="#quote">Find Out If My Panel Is Flagged</a><a class="tlink" href="tel:+18555300002">or call <span>(855) 530-0002</span></a></div>
 </div></section></div>
 
 <!-- ===================== BRANDS (placeholder) ===================== -->
@@ -361,14 +410,14 @@
   <span class="ey">The list carriers are sending</span>
   <h2 class="big">Which panel brands are getting flagged?</h2>
   <p class="lead">Insurers tell homeowners exactly which panels have to go. These are the brands most commonly flagged. Share your letter and we confirm your carrier-specific list right away.</p>
-  <div class="chips" style="margin-top:28px">
-    <span class="chip">Federal Pacific (FPE)</span>
-    <span class="chip">Zinsco</span>
-    <span class="chip">Challenger</span>
-    <span class="chip">Pushmatic</span>
+  <div class="bgrid">
+    <div class="bcard"><span class="wic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 4 2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 4a2 2 0 0 0-3.4 0z"/><path d="M12 9v4.5M12 17.5h.01"/></svg></span><div><h3>Federal Pacific (FPE)</h3><p>Breakers can fail to trip during a fault, a known fire risk.</p></div></div>
+    <div class="bcard"><span class="wic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 4 2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 4a2 2 0 0 0-3.4 0z"/><path d="M12 9v4.5M12 17.5h.01"/></svg></span><div><h3>Zinsco</h3><p>Breakers can overheat at the bus bar and fail to shut off.</p></div></div>
+    <div class="bcard"><span class="wic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 4 2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 4a2 2 0 0 0-3.4 0z"/><path d="M12 9v4.5M12 17.5h.01"/></svg></span><div><h3>Challenger</h3><p>Certain panels are prone to overheating under load.</p></div></div>
+    <div class="bcard"><span class="wic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 4 2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 4a2 2 0 0 0-3.4 0z"/><path d="M12 9v4.5M12 17.5h.01"/></svg></span><div><h3>Pushmatic</h3><p>Aging push-button breakers can trip slowly or unreliably.</p></div></div>
   </div>
   <p class="lead" style="margin-top:24px">Not sure what you have? Send a photo of your panel label, or book a free inspection and we will identify it for you.</p>
-  <a class="btn btn-dark btn-lg" href="#quote" style="margin-top:10px">Identify My Panel Free</a>
+  <div class="sec-cta"><a class="btn btn-dark btn-lg" href="#quote">Identify My Panel Free</a><a class="tlink" href="tel:+18555300002">or call <span>(855) 530-0002</span></a></div>
 </div></section>
 
 <!-- ===================== DEADLINE ===================== -->
@@ -387,6 +436,7 @@
     <div class="ansbox">
       <h3>Will Golden make the deadline?</h3>
       <p>Yes. We prioritize insurance-deadline jobs, pull the permit, replace the panel, and hand you the documentation your carrier needs, all inside your window. Book the inspection as soon as your letter arrives so we can lock in your date.</p>
+      <a class="btn btn-red btn-lg" href="#quote" style="margin-top:18px">Lock In My Date</a>
     </div>
   </div>
 </div></section>
@@ -396,7 +446,7 @@
   <span class="ey">What does it cost?</span>
   <h2 class="big">Panel replacement cost, in plain numbers</h2>
   <div class="cost-wrap">
-    <figure class="shot side"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.3"/><path d="M8 5l1.5-2h5L16 5"/></svg><span class="phl">Panel replacement photo</span></div></figure>
+    <figure class="shot side"><img src="panel.jpg" alt="Modern electrical panel replacement in Livermore, CA"></figure>
     <div>
       <p class="lead" style="margin-top:0">A full replacement in our area commonly runs in the five-figure range depending on the home, the panel size, and the wiring behind it. You get a firm quote after the inspection, with financing so a deadline does not force a rushed decision.</p>
       <div class="cost-grid">
@@ -404,6 +454,7 @@
         <div class="cost"><div class="fig">Financing</div><div class="cap">Flexible payment options, so a 30 to 60 day deadline does not mean paying all at once.</div></div>
         <div class="cost"><div class="fig">~$1K&#8594;$2K<span class="yr"> / yr</span></div><div class="cap">What some keep-but-surcharge policies jump to if you do nothing.</div></div>
       </div>
+      <div class="sec-cta"><a class="btn btn-red btn-lg" href="#quote">Get My Firm Quote</a><a class="tlink" href="tel:+18555300002">or call <span>(855) 530-0002</span></a></div>
     </div>
   </div>
 </div></section>
@@ -414,7 +465,7 @@
     <span class="ey">Neighbors in the same spot?</span>
     <h2>Bundle your whole HOA and everyone saves</h2>
     <p>If these letters are hitting your street, you are not alone. Golden offers HOA and neighborhood bundling: group several panel replacements together for priority scheduling and better per-home pricing.</p>
-    <a class="btn btn-dark btn-lg" href="#quote" style="margin-top:18px">Ask About HOA Bundling</a>
+    <div class="sec-cta" style="margin-top:18px"><a class="btn btn-dark btn-lg" href="#quote">Ask About HOA Bundling</a><a class="tlink" href="tel:+18555300002" style="color:#fff">or call <span style="color:#fff;text-decoration:underline">(855) 530-0002</span></a></div>
   </div>
   <div class="side"><ul>
     <li>One coordinated schedule</li>
@@ -434,7 +485,14 @@
     <div class="step"><div class="num">03</div><h3>Panel replacement</h3><p>Licensed electricians swap the panel, and flagged wiring if needed, to current insurable standard.</p></div>
     <div class="step"><div class="num">04</div><h3>Insurer paperwork</h3><p>You get the documentation and photos your carrier wants, so your coverage stays in place.</p></div>
   </div>
-  <figure class="shot"><div class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3.3"/><path d="M8 5l1.5-2h5L16 5"/></svg><span class="phl">Golden Electrical crew · Tri-Valley</span></div><figcaption>Licensed, family-owned, local to the Tri-Valley</figcaption></figure>
+  <figure class="shot cta-shot"><img src="electrician.jpg" alt="Licensed Golden Electrical electrician in Livermore, CA">
+    <div class="ov">
+      <span class="ey">Step 1 starts here</span>
+      <h3>Licensed, family-owned, and local to the Tri-Valley</h3>
+      <p>Our electricians handle insurance-deadline panel jobs every week. Book your free inspection and we will start the clock on your side.</p>
+      <div class="sec-cta"><a class="btn btn-red btn-lg" href="#quote">Book My Free Inspection</a><a class="tlink" href="tel:+18555300002">or call <span>(855) 530-0002</span></a></div>
+    </div>
+  </figure>
 </div></section>
 
 <!-- ===================== AREA ===================== -->
@@ -444,6 +502,7 @@
   <p class="lead">Golden Electrical covers Livermore and the surrounding Tri-Valley. If your carrier gave you a deadline, we can get to you.</p>
   <div class="cityline">LIVERMORE <b>&middot;</b> PLEASANTON <b>&middot;</b> DUBLIN <b>&middot;</b> SAN RAMON</div>
   <div class="zips">94550 &middot; 94551 &middot; 94566 &middot; 94568 &middot; 94582</div>
+  <div class="sec-cta"><a class="btn btn-red btn-lg" href="#quote">Check My Availability</a><a class="tlink" href="tel:+18555300002">or call <span>(855) 530-0002</span></a></div>
 </div></section></div>
 
 <!-- ===================== FAQ ===================== -->
@@ -465,27 +524,28 @@
 
   <details><summary>My whole neighborhood got letters. Can you help all of us?</summary>
     <div class="a">That is exactly what our HOA and neighborhood bundling is for. Group the replacements for priority scheduling and better per-home pricing, with one point of contact for the board.</div></details>
+
+  <p class="lead" style="margin-top:30px">Still have a question about your letter? Ask us during your free inspection.</p>
+  <div class="sec-cta" style="margin-top:16px"><a class="btn btn-red btn-lg" href="#quote">Ask Us About My Letter</a><a class="tlink" href="tel:+18555300002">or call <span>(855) 530-0002</span></a></div>
 </div></section>
 
 <!-- ===================== FINAL CTA ===================== -->
-<div class="final" id="quote"><section><div class="wrap">
+<div class="final"><section><div class="wrap">
   <h2>Beat your insurance deadline. Start with a free inspection.</h2>
   <p>Send us your letter or book an inspection today. We will identify your panel, give you a firm quote, and get it replaced before your window closes.</p>
   <div class="cta-row">
-    <a class="btn btn-dark btn-lg" href="#">Call (855) 530-0002</a>
-    <a class="btn btn-outline btn-lg" href="#">Request My Quote</a>
+    <a class="btn btn-dark btn-lg" href="tel:+18555300002">Call (855) 530-0002</a>
+    <a class="btn btn-outline btn-lg" href="#quote">Book My Free Inspection</a>
   </div>
 </div></section></div>
-
-<footer><div class="wrap">
-  <strong style="font-family:var(--fd);color:#fff;font-size:17px">Golden Electrical</strong><br>
-  2150 Portola Ave D146, Livermore, CA 94551 &middot; (855) 530-0002<br>
-  <span class="lic">CA LICENSE #1097977 &middot; FAMILY-OWNED</span>
-</div></footer>
 
 <script>
 (function(){
   var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* lead form: preview only, swap for Golden's real form/CRM endpoint before ads go live */
+  var lf=document.getElementById('lead-form');
+  if(lf){lf.addEventListener('submit',function(e){e.preventDefault();lf.closest('.lead-card').classList.add('sent');});}
 
   /* live example 60-day deadline countdown */
   var d=document.getElementById('cd-d'),h=document.getElementById('cd-h'),
